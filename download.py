@@ -147,6 +147,9 @@ def process_case(case_url, date_dir, base_url, force=False):
 
     os.makedirs(case_dir, exist_ok=True)
 
+    # Log progress immediately after determining the case directory
+    log(f"  {journalpostid}: {arkivsak_id}")
+
     # Determine censorship
     tekstdokument = soup.find("h2", string="Tekstdokument")
     is_censored = False
@@ -169,9 +172,6 @@ def process_case(case_url, date_dir, base_url, force=False):
     case_details = parse_case_details(case_html, arkivsak_id, is_censored, censor_reason)
     details_path = os.path.join(case_dir, "details.txt")
     write_details_file(details_path, case_details)
-
-    # Log progress
-    log(f"  {journalpostid}: {arkivsak_id}")
 
 def process_date(kommune_config, date, force=False):
     """Processes a specific date URL, including all paginated pages."""
