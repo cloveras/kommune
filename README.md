@@ -13,7 +13,7 @@ Det er _mulig_ det kommer mer funksjonalitet.
 
 ## Kjøring
 
-Start scriptet med ønsket komme, startdato og sluttdato, f.eks:
+Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
 * `python download.py vagan 2024-01-01 2024-12-31` (Vågan kommune fra 1. januar 2024 til 31. desember 2024)
 * `python download.py vestvagoy 2025-01-01 2025-01-15` (Vestvågøy kommune fra 1. januar 2025 til 15. januar 2025)
 
