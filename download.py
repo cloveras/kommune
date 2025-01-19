@@ -52,7 +52,7 @@ def sanitize_string(value):
 
 def sanitize_filename(name):
     """Sanitize filename by removing invalid characters."""
-    name = sanitize_string(name)  # Normalize whitespace first
+    name = sanitize_string(name)
     return "".join(c if c.isalnum() or c in " ._-()" else "_" for c in name).replace("/", "-")
 
 def extract_case_links(soup, base_url):
@@ -68,8 +68,26 @@ def write_details_file(details_path, content):
     with open(details_path, "w", encoding="utf-8") as f:
         f.write(content.strip() + "\n\n")  # Ensure trailing newline
 
+def download_documents(documents, case_dir):
+    """Download all documents for the case."""
+    doc_names = []
+    for doc in documents:
+        doc_url = doc["href"]
+        doc_name = sanitize_filename(doc.get_text(strip=True))
+        doc_path = os.path.join(case_dir, doc_name)
+        try:
+            response = requests.get(doc_url, headers=HEADERS)
+            response.raise_for_status()
+            with open(doc_path, "wb") as f:
+                f.write(response.content)
+            doc_names.append(doc_name)
+            log(f"        - {doc_name}")
+        except Exception as e:
+            log(f"        - Failed: {doc_url}: {e}")
+    return doc_names
+
 def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_reason=None):
-    """Parses and formats case details into plain text."""
+    """Parse and format case details into plain text."""
     soup = BeautifulSoup(case_html, "html.parser")
 
     # Extract table data
@@ -78,14 +96,14 @@ def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_rea
     if table:
         rows = table.find_all("tr")
         for row in rows:
-            header = row.find("th").get_text(strip=True).rstrip(":")  # Ensure no trailing colon
+            header = row.find("th").get_text(strip=True).rstrip(":")
             value = sanitize_string(row.find("td").get_text(strip=True))
             if header == "ArkivsakID":
-                details.append(f"{header}: {sanitized_arkivsak_id}")  # Use sanitized ArkivsakID
+                details.append(f"{header}: {sanitized_arkivsak_id}")
             else:
-                details.append(f"{header}: {value}")  # Use single colon
+                details.append(f"{header}: {value}")
 
-    # Extract Avsender(e)
+    # Extract sender
     sender_section = soup.find("h2", string="Avsender(e)")
     if sender_section:
         sender_div = sender_section.find_next("div", class_="dokmottakere")
@@ -93,9 +111,9 @@ def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_rea
             sender_text = sender_div.get_text(separator="\n", strip=True)
             details.append("\nAvsender(e):\n" + sender_text + "\n")
 
-    # Extract Tekstdokument or add censor reason
+    # Add documents
     if is_censored:
-        details.append(f"\nTekstdokument\n{censor_reason}")
+        details.append("\nTekstdokument\n" + censor_reason)
     else:
         document_section = soup.find("h2", string="Tekstdokument")
         if document_section:
@@ -133,11 +151,19 @@ def process_case(case_url, date_dir, base_url, force=False):
     tekstdokument = soup.find("h2", string="Tekstdokument")
     is_censored = False
     censor_reason = None
+    documents = []
     if tekstdokument:
         censor_text = tekstdokument.find_next("div", class_="content-text")
         if censor_text and "ikke offentlig" in censor_text.get_text():
             is_censored = True
             censor_reason = censor_text.get_text(strip=True)
+        else:
+            document_list = tekstdokument.find_next("ul", class_="innsyn_dok")
+            if document_list:
+                documents = document_list.find_all("a", href=True)
+
+    # Download documents
+    downloaded_files = download_documents(documents, case_dir)
 
     # Parse and write details
     case_details = parse_case_details(case_html, arkivsak_id, is_censored, censor_reason)
