@@ -52,8 +52,9 @@ def parse_case_details(case_html, is_censored, censor_reason=None):
         rows = table.find_all("tr")
         for row in rows:
             header = row.find("th").get_text(strip=True)
-            value = " ".join(row.find("td").get_text(strip=True).split())  # Clean up line breaks and spaces
-            details.append(f"{header.strip(':')}: {value}")  # Ensure no trailing colons in the header
+            value = row.find("td").get_text(strip=True).replace("\n", " ")  # Replace newlines with a single space
+            value = " ".join(value.split())  # Clean up excess spaces
+            details.append(f"{header}: {value}")
 
     # Extract Avsender(e)
     sender_section = soup.find("h2", string="Avsender(e)")
@@ -76,7 +77,6 @@ def parse_case_details(case_html, is_censored, censor_reason=None):
                 details.extend(document_titles)
 
     return "\n".join(details)
-
 
 def process_case(case_url, date_dir):
     """Process a single case by downloading its details and documents."""
@@ -128,6 +128,7 @@ def process_case(case_url, date_dir):
                 log(f"    - Error downloading document: {file_url} - {e}")
 
 def process_date(date_url, date):
+    """Processes a specific date URL, including all paginated pages."""
     log(date.strftime("%Y-%m-%d"))
     date_dir = os.path.join(OUTPUT_DIR, date.strftime("%Y/%m/%d"))
     os.makedirs(date_dir, exist_ok=True)
@@ -135,16 +136,22 @@ def process_date(date_url, date):
     while date_url:
         page_content = fetch_page(date_url)
         soup = BeautifulSoup(page_content, "html.parser")
+
+        # Extract case links from the current page
         case_links = extract_case_links(soup)
         for case_link in case_links:
             process_case(case_link, date_dir)
 
-        pagination_links = extract_pagination_links(soup)
-        date_url = pagination_links[-1] if pagination_links and "neste" in pagination_links[-1].lower() else None
+        # Find the "neste" link and continue pagination
+        next_link = soup.find('a', string="neste")
+        if next_link:
+            date_url = urljoin(BASE_URL, next_link['href'])
+        else:
+            date_url = None
 
 def main():
     start_date = datetime(2024, 1, 1)
-    end_date = datetime(2024, 12, 31)
+    end_date = datetime(2025, 2, 1)
     current_date = start_date
 
     while current_date <= end_date:
