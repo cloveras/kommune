@@ -1,6 +1,6 @@
 # kommune
 
-Henter alt fra Vågans kommune postliste: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
+Et Python script som henter alt fra Vågans kommune postliste: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
 
 Siden søkefunksjonen for postlisten krever at man først velger _datoen_ man vil søke i, fungerer den dårlig.
 
