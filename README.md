@@ -1,18 +1,26 @@
 # kommune
 
-Et Python-script som henter alt fra Vågans kommune postliste: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
+Et Python-script som henter alt fra (foreløpig) tyo kommuners postlister:
+* Vågans kommune: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
+* Vestvågøy kommune: https://www.vestvagoy.kommune.no/innsyn.aspx
 
-Siden søkefunksjonen for postlisten krever at man først velger _datoen_ man vil søke i, fungerer den dårlig.
+Siden søkefunksjonen for postlistene krever at man først velger _datoen_ man vil søke i, fungerer de dårlig.
 
 Med dette scriptet får du allt innhold lokalt, og kan søke i det uavhengig av dato.
 Det er _mulig_ det kommer mer funksjonalitet.
 
+## Kjøring
+
+Start scripetet med ønsket komme, startdato og sluttdato, f.eks:
+* `download.py vagan 2024-01-01 2024-12-31` (Vågan kommne fra 1. januar 2024 til 31. desember 2024)
+* `download.py vestvagoy 2025-01-01 2025-01-15` (Vestvågøy kommne fra 1. januar 2025 til 15. januar 2025)
+
 ## Hva skjer?
 
-Dette scriptet henter ned alle saker mellom to datoer, og lager en mappestruktur `archive/YYYY/MM/DD/<sak>`, som dette:
+Dette scriptet henter ned alle saker mellom to datoer, og lager en mappestruktur `archive-<kommunenavn>/YYYY/MM/DD/<sak>`, f.eks. som dette:
 
 ```
-$ ls -1 archive/2024/01/17/
+$ ls -1 archive-vagan/2024/01/17/
 2021085354 - 22_2334 - Samhandlingsavvik/
 2021085356 - 24_7 - Skjenkebevilling - Enkeltanledning_Ambulerende 2024/
 2021085362 - 24_12 - Henvendelser Drift og forvaltning 2024/
@@ -26,15 +34,24 @@ $ ls -1 archive/2024/01/17/
 ```
 
 Greit å vite:
-* Mellom hver dag tar scriuoptet en pause på 0-5 sekunder.
+* Mellom hver dag tar scriptet en pause på 0-5 sekunder.
 * Hvis en saksmappe (directory) allerede eksisterer, hopper scriptet over den saken.
+  Det kan overstyres med `-f`, som dette: `download.py -f vagan 2024-01-01 2024-12-31`.
 
 ## Hva lagres?
 
-For hver sak lages det en fil `details.txt`, og alle sakens dokumenter lasted ned til samme mappe. Et eksempel:
+For hver sak lages det en fil `details.txt`, og alle sakens dokumenter lasted ned til samme mappe. 
 
 ```
-$ cat "archive/2024/01/17/2021085388 - 23_1389 - GBN 5_1_108 - OppmålingO-13_2020/details.txt"
+$ ls -1 "archive/2024/01/17/2021085388 - 23_1389 - GBN 5_1_108 - Oppmåling O-13_2020"/
+Angående oppmåling - Gbn 5_1_108.pdf
+details.txt
+```
+
+Et eksempel på `details.txt`:
+
+```
+$ cat "archive-vagan/2024/01/17/2021085388 - 23_1389 - GBN 5_1_108 - Oppmåling O-13_2020/details.txt"
 DokumentID: 24/1185 - Angående oppmåling - Gbn 5/1/108Utkjøp av festetomt Henningsvær - Gbn 5/1/108
 ArkivsakID: 23/1389 - GBN 5/1/108 - OppmålingO-13/2020
 Journaldato: 17.01.2024
