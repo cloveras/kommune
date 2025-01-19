@@ -1,8 +1,11 @@
 # kommune
 
-Et Python script som henter alt fra Vågans kommune postliste: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
+Et Python-script som henter alt fra Vågans kommune postliste: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
 
 Siden søkefunksjonen for postlisten krever at man først velger _datoen_ man vil søke i, fungerer den dårlig.
+
+Med dette scriptet får du allt innhold lokalt, og kan søke i det uavhengig av dato.
+Det er _mulig_ det kommer mer funksjonalitet.
 
 ## Hva skjer?
 
