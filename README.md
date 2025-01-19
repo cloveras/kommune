@@ -22,6 +22,10 @@ $ ls -1 archive/2024/01/17/
 2021085422 - 18_303 - Høringer - stab_støtte/
 ```
 
+Greit å vite:
+* Mellom hver dag tar scriuoptet en pause på 0-5 sekunder.
+* Hvis en saksmappe (directory) allerede eksisterer, hopper scriptet over den saken.
+
 ## Hva lagres?
 
 For hver sak lages det en fil `details.txt`, og alle sakens dokumenter lasted ned til samme mappe. Et eksempel:
@@ -42,6 +46,9 @@ Ullevålsveien 47 A
 
 Angående oppmåling - Gbn 5/1/108
 ```
+
+Greit å vite:
+* For saker som er unntatt offentlighet lagres bare en `details.txt`.
 
 ## Hva får man se?
 
