@@ -1,12 +1,12 @@
 # kommune
 
-Et Python-script som henter alt fra (foreløpig) tyo kommuners postlister:
-* Vågans kommune: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
+Et Python-script som henter alt fra (foreløpig) to kommuners postlister:
+* Vågan kommune: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
 * Vestvågøy kommune: https://www.vestvagoy.kommune.no/innsyn.aspx
 
 Siden søkefunksjonen for postlistene krever at man først velger _datoen_ man vil søke i, fungerer de dårlig.
 
-Med dette scriptet får du allt innhold lokalt, og kan søke i det uavhengig av dato.
+Med dette scriptet får du alt innhold lokalt, og kan søke i det uavhengig av dato.
 Det er _mulig_ det kommer mer funksjonalitet.
 
 ## Kjøring
