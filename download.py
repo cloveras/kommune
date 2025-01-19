@@ -37,8 +37,9 @@ def fetch_page(url):
     return response.text
 
 def sanitize_filename(name):
-    """Sanitize filename by removing invalid characters."""
+    """Sanitize filename by removing invalid characters and replacing newlines with spaces."""
     name = " ".join(name.split())  # Remove excess whitespace
+    name = name.replace("\n", " ")  # Replace newlines with spaces
     return "".join(c if c.isalnum() or c in " ._-()" else "_" for c in name).replace("/", "-")
 
 def extract_case_links(soup, base_url):
