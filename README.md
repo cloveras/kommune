@@ -1,8 +1,10 @@
 # kommune
 
-Et Python-script som henter alt fra (foreløpig) to kommuners postlister:
+Et Python-script som henter alt fra disse kommunenes postlister:
 * Vågan kommune: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
 * Vestvågøy kommune: https://www.vestvagoy.kommune.no/innsyn.aspx
+* Flakstad: https://flakstad.kommune.no/innsyn.aspx
+* Moskenes: https://moskenes.kommune.no/innsyn.aspx
 
 Siden søkefunksjonen for postlistene krever at man først velger _datoen_ man vil søke i, fungerer de dårlig.
 
@@ -11,7 +13,7 @@ Det er _mulig_ det kommer mer funksjonalitet.
 
 ## Kjøring
 
-Start scripetet med ønsket komme, startdato og sluttdato, f.eks:
+Start scriptet med ønsket komme, startdato og sluttdato, f.eks:
 * `download.py vagan 2024-01-01 2024-12-31` (Vågan kommne fra 1. januar 2024 til 31. desember 2024)
 * `download.py vestvagoy 2025-01-01 2025-01-15` (Vestvågøy kommne fra 1. januar 2025 til 15. januar 2025)
 
