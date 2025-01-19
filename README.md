@@ -25,7 +25,7 @@ $ ls -1 archive-vagan/2024/01/17/
 2021085356 - 24_7 - Skjenkebevilling - Enkeltanledning_Ambulerende 2024/
 2021085362 - 24_12 - Henvendelser Drift og forvaltning 2024/
 2021085387 - 24_134 - Eierskapsenheten - Leie av kommunal bolig/
-2021085388 - 23_1389 - GBN 5_1_108 - OppmålingO-13_2020/
+2021085388 - 23_1389 - GBN 5_1_108 - Oppmåling O-13_2020/
 2021085389 - 24_134 - Eierskapsenheten - Leie av kommunal bolig/
 2021085394 - 24_134 - Eierskapsenheten - Leie av kommunal bolig/
 2021085408 - 21_2298 - Detaljregulering - Samlagstomta - Planid 314 - Kabelvåg_ Gbn 13_325/
@@ -43,7 +43,7 @@ Greit å vite:
 For hver sak lages det en fil `details.txt`, og alle sakens dokumenter lasted ned til samme mappe. 
 
 ```
-$ ls -1 "archive/2024/01/17/2021085388 - 23_1389 - GBN 5_1_108 - Oppmåling O-13_2020"/
+$ ls -1 "archive-vagan/2024/01/17/2021085388 - 23_1389 - GBN 5_1_108 - Oppmåling O-13_2020"/
 Angående oppmåling - Gbn 5_1_108.pdf
 details.txt
 ```
