@@ -69,22 +69,30 @@ def write_details_file(details_path, content):
         f.write(content.strip() + "\n\n")  # Ensure trailing newline
 
 def download_documents(documents, case_dir):
-    """Download all documents for the case."""
-    doc_names = []
-    for doc in documents:
-        doc_url = doc["href"]
-        doc_name = sanitize_filename(doc.get_text(strip=True))
-        doc_path = os.path.join(case_dir, doc_name)
+    """Download documents for a case and return a list of downloaded file names."""
+    downloaded_files = []
+    for link in documents:
+        file_url = link["href"]
+        original_name = link.get_text(strip=True)
+
+        # Extract file extension from the URL (if present)
+        ext = os.path.splitext(file_url.split("?")[0])[-1].lower()  # Handles URLs with query strings
+        if not ext:
+            ext = ".bin"  # Default to .bin if no extension is found
+
+        file_name = sanitize_filename(original_name) + ext
+        file_path = os.path.join(case_dir, file_name)
+
         try:
-            response = requests.get(doc_url, headers=HEADERS)
-            response.raise_for_status()
-            with open(doc_path, "wb") as f:
-                f.write(response.content)
-            doc_names.append(doc_name)
-            log(f"        - {doc_name}")
+            log(f"        - {file_name}")
+            doc_content = requests.get(file_url, headers=HEADERS).content
+            with open(file_path, "wb") as f:
+                f.write(doc_content)
+            downloaded_files.append(file_name)
         except Exception as e:
-            log(f"        - Failed: {doc_url}: {e}")
-    return doc_names
+            log(f"        - Error: {file_url} - {e}")
+    return downloaded_files
+
 
 def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_reason=None):
     """Parse and format case details into plain text."""
