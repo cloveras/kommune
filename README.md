@@ -17,6 +17,16 @@ Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
 * `python download.py vagan 2024-01-01 2024-12-31` 
 * `python download.py vestvagoy 2025-01-01 2025-01-15`
 
+Scriptet sjekker hver dag i intervallet som spesifiseres, f.eks. denne URL-en for 2025-01-10,
+som inneholder `fradato=2025-01-10`:
+https://vagan.kommune.no/innsyn.aspx?response=journalpost_postliste&MId1=731&scripturi=/innsyn.aspx&skin=infolink&fradato=2025-01-10T00:00:00
+
+Hver sak har en URL tilsvarende denne:
+https://vagan.kommune.no/innsyn.aspx?response=journalpost_detaljer&journalpostid=2021113411&scripturi=/innsyn.aspx&skin=infolink&Mid1=731&
+
+Dette er en sak, som vist på web:
+![Eksempel på sak](kommune.png)
+
 ## Logging
 
 ```
@@ -33,6 +43,8 @@ $ python ./download.py -f vagan 2025-01-10 2025-01-10
     - Ferdigstillelse av tiltak på gnr. 18 bnr. 146.pdf
     - Tillatelse til tiltak - branntekniske sikringstiltak - gbn 18146 Kløfterholmveien 10 Svolvær (2).pdf
 ```    
+
+Det første tallet (`2021113333` o.l.) er hentet fra `journalpostid=2021113333` i URL-en til saken.
 
 ## Data som lagres
 
