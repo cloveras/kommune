@@ -30,25 +30,6 @@ Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
 * `python download.py vagan 2024-01-01 2024-12-31` 
 * `python download.py vestvagoy 2025-01-01 2025-01-15`
 
-## Logging
-
-```
-$ python ./download.py -f vagan 2025-01-10 2025-01-10
-2025-01-10
-  2021113333: 22/682 - Feil ved begjæring om tvangsfullbyrdelse
-  2021113335: 24/1742 - Eierskapsenheten - Leie av kommunal bolig
-  2021113419: 25/75 - Gbn 58/28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS
-    - Byggesak med saksnummer 25_75.pdf
-    - Polarsmolt Fiskekar ø12.4m rev6.pdf
-  2021113448: 25/95 - Gbn 10/27 og 10/101 - egenerklæring om konsesjonsfrihet
-    - Egenerklæring.pdf
-  2021113411: 22/3478 - Gbn 18/146 - Tørrfisktørkeri - Kløfterholmveien 10, Svolvær Saga Fisk As
-    - Ferdigstillelse av tiltak på gnr. 18 bnr. 146.pdf
-    - Tillatelse til tiltak - branntekniske sikringstiltak - gbn 18146 Kløfterholmveien 10 Svolvær (2).pdf
-```    
-
-Det første tallet (`2021113333` o.l.) er hentet fra `journalpostid=2021113333` i URL-en til saken.
-
 ## Data som lagres
 
 For hver sak lagres filer som dette:
@@ -76,6 +57,25 @@ Rådhusgata 27
 Ferdigstillelse av tiltak på gnr. 18 bnr. 146.pdf
 Tillatelse til tiltak - branntekniske sikringstiltak - gbn 18146 Kløfterholmveien 10 Svolvær (2).pdf
 ```
+
+## Logging
+
+```
+$ python ./download.py -f vagan 2025-01-10 2025-01-10
+2025-01-10
+  2021113333: 22/682 - Feil ved begjæring om tvangsfullbyrdelse
+  2021113335: 24/1742 - Eierskapsenheten - Leie av kommunal bolig
+  2021113419: 25/75 - Gbn 58/28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS
+    - Byggesak med saksnummer 25_75.pdf
+    - Polarsmolt Fiskekar ø12.4m rev6.pdf
+  2021113448: 25/95 - Gbn 10/27 og 10/101 - egenerklæring om konsesjonsfrihet
+    - Egenerklæring.pdf
+  2021113411: 22/3478 - Gbn 18/146 - Tørrfisktørkeri - Kløfterholmveien 10, Svolvær Saga Fisk As
+    - Ferdigstillelse av tiltak på gnr. 18 bnr. 146.pdf
+    - Tillatelse til tiltak - branntekniske sikringstiltak - gbn 18146 Kløfterholmveien 10 Svolvær (2).pdf
+```    
+
+Det første tallet (`2021113333` o.l.) er hentet fra `journalpostid=2021113333` i URL-en til saken.
 
 ## Greit å vite
 
