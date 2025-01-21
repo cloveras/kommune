@@ -41,21 +41,20 @@ details.txt
 ```
 
 Filen `details.txt` inneholder litt info om saken:
+
 ```
-DokumentID: 25/749 - Ferdigstillelse av tiltak på gnr. 18 bnr. 146
-ArkivsakID: 22/3478 - Gbn 18/146 - Tørrfisktørkeri - Kløfterholmveien 10, Svolvær Saga Fisk As
+$ cat "archive-vagan/2025/01/10/2021113419 25_75 - Gbn 58_28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS/details.txt"
+DokumentID: 25/757 - Byggesak med saksnummer 25/75
+ArkivsakID: 25/75 - Gbn 58/28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS
 Journaldato: 10.01.2025
 Brevdato: 10.01.2025
 Dokumentansvarlig: Ayman Sawaha
-Journalpostkategori: Epost
 
 Avsender(e):
-Narud Stokke Wiig Siv.arkitekter MNAL AS
-Rådhusgata 27
-0158 OSLO
+Marius N Lindgaard
 
-Ferdigstillelse av tiltak på gnr. 18 bnr. 146.pdf
-Tillatelse til tiltak - branntekniske sikringstiltak - gbn 18146 Kløfterholmveien 10 Svolvær (2).pdf
+Byggesak med saksnummer 25_75.pdf
+Polarsmolt Fiskekar ø12.4m rev6.pdf
 ```
 
 ## Logging
