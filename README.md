@@ -26,6 +26,9 @@ Sakene presenteres som dette:
 
 ## Bruk
 
+Installer pakkene scriptet bruker:
+`pip install -r requirements.txt`.
+
 Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
 * `python download.py vagan 2024-01-01 2024-12-31` 
 * `python download.py vestvagoy 2025-01-01 2025-01-15`
