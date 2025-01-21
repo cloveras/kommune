@@ -11,21 +11,24 @@ Siden søkefunksjonen for postlistene krever at man først velger _datoen_ man v
 Med dette scriptet får du alt innhold lokalt, og kan søke i det uavhengig av dato.
 Det er _mulig_ det kommer mer funksjonalitet.
 
-## Bruk
+## Nettsidene
 
-Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
-* `python download.py vagan 2024-01-01 2024-12-31` 
-* `python download.py vestvagoy 2025-01-01 2025-01-15`
+Startsidene er som dette: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
 
-Scriptet sjekker hver dag i intervallet som spesifiseres, f.eks. denne URL-en for 2025-01-10,
-som inneholder `fradato=2025-01-10`:
+Postlistene har én oversiktsside per dag, og URL-en inneholder datoen på formatet `fradato=2025-01-10`:
 https://vagan.kommune.no/innsyn.aspx?response=journalpost_postliste&MId1=731&scripturi=/innsyn.aspx&skin=infolink&fradato=2025-01-10T00:00:00
 
 Hver sak har en URL tilsvarende denne:
 https://vagan.kommune.no/innsyn.aspx?response=journalpost_detaljer&journalpostid=2021113411&scripturi=/innsyn.aspx&skin=infolink&Mid1=731&
 
-Dette er en sak, som vist på web:
+Sakene presenteres som dette:
 ![Eksempel på sak](kommune.png)
+
+## Bruk
+
+Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
+* `python download.py vagan 2024-01-01 2024-12-31` 
+* `python download.py vestvagoy 2025-01-01 2025-01-15`
 
 ## Logging
 
