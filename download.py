@@ -6,6 +6,8 @@ import time
 from random import randint
 from urllib.parse import urljoin
 import sys
+import argparse
+import magic
 
 # Supported kommune configurations
 KOMMUNE_CONFIG = {
@@ -68,38 +70,12 @@ def write_details_file(details_path, content):
     with open(details_path, "w", encoding="utf-8") as f:
         f.write(content.strip() + "\n\n")  # Ensure trailing newline
 
-def download_documents(documents, case_dir):
-    """Download documents for a case and return a list of downloaded file names."""
-    downloaded_files = []
-    for link in documents:
-        file_url = link["href"]
-        original_name = link.get_text(strip=True)
-
-        # Extract file extension from the URL (if present)
-        ext = os.path.splitext(file_url.split("?")[0])[-1].lower()  # Handles URLs with query strings
-        if not ext:
-            ext = ".bin"  # Default to .bin if no extension is found
-
-        file_name = sanitize_filename(original_name) + ext
-        file_path = os.path.join(case_dir, file_name)
-
-        try:
-            log(f"        - {file_name}")
-            doc_content = requests.get(file_url, headers=HEADERS).content
-            with open(file_path, "wb") as f:
-                f.write(doc_content)
-            downloaded_files.append(file_name)
-        except Exception as e:
-            log(f"        - Error: {file_url} - {e}")
-    return downloaded_files
-
-
-def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_reason=None):
+def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_reason=None, downloaded_files=None):
     """Parse and format case details into plain text."""
     soup = BeautifulSoup(case_html, "html.parser")
+    details = []
 
     # Extract table data
-    details = []
     table = soup.find("table", class_="table hh i-bgw two")
     if table:
         rows = table.find_all("tr")
@@ -122,14 +98,8 @@ def parse_case_details(case_html, sanitized_arkivsak_id, is_censored, censor_rea
     # Add documents
     if is_censored:
         details.append("\nTekstdokument\n" + censor_reason)
-    else:
-        document_section = soup.find("h2", string="Tekstdokument")
-        if document_section:
-            document_list = document_section.find_next("ul", class_="innsyn_dok")
-            if document_list:
-                documents = document_list.find_all("a", href=True)
-                document_titles = [doc.get_text(strip=True) for doc in documents]
-                details.extend(document_titles)
+    elif downloaded_files:
+        details.extend(downloaded_files)
 
     return "\n".join(details)
 
@@ -155,29 +125,65 @@ def process_case(case_url, date_dir, base_url, force=False):
 
     os.makedirs(case_dir, exist_ok=True)
 
-    # Log progress immediately after determining the case directory
-    log(f"  {journalpostid}: {arkivsak_id}")
-
     # Determine censorship
     tekstdokument = soup.find("h2", string="Tekstdokument")
     is_censored = False
     censor_reason = None
-    documents = []
     if tekstdokument:
         censor_text = tekstdokument.find_next("div", class_="content-text")
         if censor_text and "ikke offentlig" in censor_text.get_text():
             is_censored = True
             censor_reason = censor_text.get_text(strip=True)
-        else:
-            document_list = tekstdokument.find_next("ul", class_="innsyn_dok")
+
+    # Log case details
+    log(f"  {journalpostid}: {arkivsak_id}")
+
+    # Download documents and prepare file list
+    downloaded_files = []
+    if not is_censored:
+        document_section = soup.find("h2", string="Tekstdokument")
+        if document_section:
+            document_list = document_section.find_next("ul", class_="innsyn_dok")
             if document_list:
                 documents = document_list.find_all("a", href=True)
+                for doc in documents:
+                    file_url = urljoin(case_url, doc['href'])
+                    original_name = sanitize_filename(doc.get_text(strip=True))
 
-    # Download documents
-    downloaded_files = download_documents(documents, case_dir)
+                    try:
+                        # Fetch file
+                        response = requests.get(file_url, headers=HEADERS, stream=True)
+                        response.raise_for_status()
+
+                        # Use MIME type detection to determine the correct suffix
+                        mime = magic.Magic(mime=True)
+                        mime_type = mime.from_buffer(response.content[:4096])
+                        ext = mime_type.split("/")[-1]
+                        ext = f".{ext}" if ext else ".bin"
+
+                        # Add the extension if not already present
+                        if not original_name.endswith(ext):
+                            original_name += ext
+
+                        file_path = os.path.join(case_dir, original_name)
+
+                        # Avoid overwriting existing files unless forced
+                        if os.path.exists(file_path) and not force:
+                            log(f"    - Skipping duplicate: {os.path.basename(file_path)}")
+                            continue
+
+                        # Save the file
+                        with open(file_path, "wb") as f:
+                            for chunk in response.iter_content(chunk_size=8192):
+                                f.write(chunk)
+
+                        log(f"    - {os.path.basename(file_path)}")
+                        downloaded_files.append(os.path.basename(file_path))
+                    except Exception as e:
+                        log(f"    - Error downloading document: {file_url} - {e}")
 
     # Parse and write details
-    case_details = parse_case_details(case_html, arkivsak_id, is_censored, censor_reason)
+    case_details = parse_case_details(case_html, arkivsak_id, is_censored, censor_reason, downloaded_files)
     details_path = os.path.join(case_dir, "details.txt")
     write_details_file(details_path, case_details)
 
@@ -206,18 +212,28 @@ def process_date(kommune_config, date, force=False):
             date_url = None
 
 def main():
-    if len(sys.argv) < 4:
-        print("Usage: python download.py <kommune> <start-date> <stop-date> [-f]")
-        print(f"Supported kommune names: {', '.join(KOMMUNE_CONFIG.keys())}")
-        return
+    parser = argparse.ArgumentParser(description="Download case data for a specified kommune and date range.")
+    parser.add_argument("kommune", type=str, help="Name of the kommune (e.g., vagan, vestvagoy).")
+    parser.add_argument("start_date", type=str, help="Start date in YYYY-MM-DD format.")
+    parser.add_argument("stop_date", type=str, help="Stop date in YYYY-MM-DD format.")
+    parser.add_argument("-f", "--force", action="store_true", help="Force re-download of existing data.")
 
-    kommune = sys.argv[1].lower()
-    start_date = datetime.strptime(sys.argv[2], DATE_FORMAT)
-    stop_date = datetime.strptime(sys.argv[3], DATE_FORMAT)
-    force = "-f" in sys.argv
+    args = parser.parse_args()
+
+    kommune = args.kommune.lower()
+    start_date = args.start_date
+    stop_date = args.stop_date
+    force = args.force
 
     if kommune not in KOMMUNE_CONFIG:
         print(f"Error: Unknown kommune '{kommune}'. Supported kommune names: {', '.join(KOMMUNE_CONFIG.keys())}")
+        return
+
+    try:
+        start_date = datetime.strptime(start_date, DATE_FORMAT)
+        stop_date = datetime.strptime(stop_date, DATE_FORMAT)
+    except ValueError as e:
+        print(f"Error: Invalid date format. Dates must be in YYYY-MM-DD format. ({e})")
         return
 
     kommune_config = KOMMUNE_CONFIG[kommune]
@@ -236,6 +252,7 @@ def main():
         except Exception as e:
             log(f"Error processing date {current_date}: {e}")
         current_date += timedelta(days=1)
+
 
 if __name__ == "__main__":
     main()
