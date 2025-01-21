@@ -26,6 +26,12 @@ Sakene presenteres som dette:
 
 ## Bruk
 
+Et virtuelt _environment_ for Pythong kan være greit, spesielty på macOS:
+```
+python -m venv venv
+source venv/bin/activate
+```
+
 Installer pakkene scriptet bruker:
 `pip install -r requirements.txt`.
 
