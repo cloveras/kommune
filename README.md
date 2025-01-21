@@ -62,7 +62,8 @@ Ferdigstillelse av tiltak på gnr. 18 bnr. 146.pdf
 Tillatelse til tiltak - branntekniske sikringstiltak - gbn 18146 Kløfterholmveien 10 Svolvær (2).pdf
 ```
 
-Greit å vite:
+## Greit å vite
+
 * Mellom hver dag tar scriptet en pause på 0-5 sekunder.
 * Hvis en saksmappe (directory) allerede eksisterer, hopper scriptet over den saken.
   Det kan overstyres med `-f`, som dette: `download.py -f vagan 2024-01-01 2024-12-31`.
