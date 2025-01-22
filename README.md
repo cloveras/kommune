@@ -41,7 +41,8 @@ Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
 
 ## Data som lagres
 
-For hver sak lages det en egen mappe (directpory) med filer som dette:
+For hver sak lages det en egen mappe (directory) med filer som dette:
+
 ```
 $ ls -1 "archive-vagan/2025/01/10/2021113419 25_75 - Gbn 58_28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS"
 Byggesak med saksnummer 25_75.pdf
@@ -87,7 +88,7 @@ Det første tallet (`2021113333` o.l.) er hentet fra `journalpostid=2021113333` 
 
 ## Greit å vite
 
-* Mellom hver dag tar scriptet en pause på 0-5 sekunder.
+* Mellom hver dato tar scriptet en pause på 0-5 sekunder.
 * Hvis en saksmappe (directory) allerede eksisterer, hopper scriptet over den saken.
   Det kan overstyres med `-f`, som dette: `download.py -f vagan 2024-01-01 2024-12-31`.
 
