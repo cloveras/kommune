@@ -26,7 +26,7 @@ Sakene presenteres som dette:
 
 ## Bruk
 
-Et virtuelt _environment_ for Python kan være greit, spesielty på macOS:
+Et virtuelt _environment_ for Python kan være greit, spesielt på macOS:
 ```
 python -m venv venv
 source venv/bin/activate
