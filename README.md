@@ -26,7 +26,7 @@ Sakene presenteres som dette:
 
 ## Bruk
 
-Et virtuelt _environment_ for Pythong kan være greit, spesielty på macOS:
+Et virtuelt _environment_ for Python kan være greit, spesielty på macOS:
 ```
 python -m venv venv
 source venv/bin/activate
@@ -41,7 +41,7 @@ Start scriptet med ønsket kommune, startdato og sluttdato, f.eks:
 
 ## Data som lagres
 
-For hver sak lagres filer som dette:
+For hver sak lages det en egen mappe (directpory) med filer som dette:
 ```
 $ ls -1 "archive-vagan/2025/01/10/2021113419 25_75 - Gbn 58_28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS"
 Byggesak med saksnummer 25_75.pdf
@@ -49,7 +49,7 @@ Polarsmolt Fiskekar ø12.4m rev6.pdf
 details.txt
 ```
 
-Filen `details.txt` inneholder litt info om saken:
+Filen `details.txt` inneholder litt info om saken, tilsvarende skjermbildet ovenfor:
 
 ```
 $ cat "archive-vagan/2025/01/10/2021113419 25_75 - Gbn 58_28 - Utskifting av oppdrettskar - Kleppstadveien 7 Polarsmolt AS/details.txt"
