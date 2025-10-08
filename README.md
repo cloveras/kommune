@@ -1,5 +1,7 @@
 # kommune
 
+([English README here](README_en.md))
+
 Et Python-script som henter alt fra disse kommunenes postlister:
 
 * Vågan kommune: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
