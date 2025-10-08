@@ -1,10 +1,11 @@
 # kommune
 
 Et Python-script som henter alt fra disse kommunenes postlister:
+
 * Vågan kommune: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/
-* Vestvågøy kommune: https://www.vestvagoy.kommune.no/innsyn.aspx
-* Flakstad: https://flakstad.kommune.no/innsyn.aspx
-* Moskenes: https://moskenes.kommune.no/innsyn.aspx
+* Vestvågøy kommune: https://www.vestvagoy.kommune.no/organisasjon/innsyn-i-post-og-saker/
+* Flakstad: https://flakstad.kommune.no/postliste/
+* Moskenes: https://moskenes.kommune.no/innsyn/postliste/
 
 Siden søkefunksjonen for postlistene krever at man først velger _datoen_ man vil søke i, fungerer de dårlig.
 
