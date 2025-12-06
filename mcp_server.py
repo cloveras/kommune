@@ -9,7 +9,7 @@ the downloaded kommune archive data via the Model Context Protocol.
 import os
 import glob
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 from datetime import datetime
 
 from fastmcp import FastMCP
