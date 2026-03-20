@@ -14,6 +14,10 @@ Siden søkefunksjonen for postlistene krever at man først velger _datoen_ man v
 Med dette scriptet får du alt innhold lokalt, og kan søke i det uavhengig av dato.
 Det er _mulig_ det kommer mer funksjonalitet.
 
+## 🤖 MCP Server for Claude Desktop
+
+Nå kan du bruke dataene med Claude Desktop! Se [MCP_SERVER_README.md](MCP_SERVER_README.md) for instruksjoner om hvordan du setter opp en lokal MCP-server som gir Claude tilgang til arkivdataene dine.
+
 ## Nettsidene
 
 Startsidene er som dette: https://vagan.kommune.no/politikk-og-organisasjon/innsyn/postliste/

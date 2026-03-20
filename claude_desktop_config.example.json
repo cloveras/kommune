@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "kommune": {
+      "command": "python3",
+      "args": [
+        "/absolute/path/to/kommune/mcp_server.py"
+      ],
+      "env": {
+        "KOMMUNE_ARCHIVE_DIR": "./archive-*"
+      }
+    }
+  }
+}

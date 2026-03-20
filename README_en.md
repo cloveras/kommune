@@ -15,6 +15,10 @@ Because the web search requires selecting **a single date** before you can view 
 This script downloads all content locally so you can search, browse, and archive everything offline — without dealing with per-day limitations.  
 Additional functionality may be added later.
 
+## 🤖 MCP Server for Claude Desktop
+
+You can now use the downloaded data with Claude Desktop! See [MCP_SERVER_README.md](MCP_SERVER_README.md) for instructions on setting up a local MCP server that gives Claude access to your archive data.
+
 ---
 
 ## About the websites
